@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product 
+    Id="68e4b8ea-126a-463b-9fe7-64d0493e0b4b" 
+    Name="Windows Developer Prerequisite Application" 
+    Language="1033" 
+    Version="3.5.0.0" 
+    Manufacturer="bbv Software Services AG"
+    UpgradeCode="de099f84-d7f5-4bb5-9a68-7aa07916f7d2">
+    
+    <Package 
+      InstallerVersion="200" 
+      Compressed="yes" 
+      InstallScope="perMachine" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature 
+      Id="ProductFeature" 
+      Title="PrerequisiteApplication" 
+      Level="1">
+      <ComponentGroupRef 
+        Id="PrerequisiteApplication" />
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <Directory 
+      Id="TARGETDIR" 
+      Name="SourceDir">
+      <Directory 
+        Id="ProgramFilesFolder">
+        <Directory 
+          Id="INSTALLFOLDER" 
+          Name="Windows Developer Prerequisite Application" />
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup 
+      Id="PrerequisiteApplication" 
+      Directory="INSTALLFOLDER">
+      <Component
+        Id="prerequisiteFile"
+        Guid="f6b91b66-5037-4af3-9450-62b62c117aed">
+        <File
+          Name="FirstPrerequisite.txt"
+          Source="$(var.PrerequisiteApplication.TargetDir)..\..\"
+          KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+</Wix>

@@ -1,0 +1,6 @@
+BurnYourApplication.v11.suo
+BurnYourApplication/obj/*
+*.csproj.user
+*/obj/*
+*/bin/*
+*.DotSettings.user

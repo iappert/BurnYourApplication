@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+  <Bundle 
+    Name="Windows Developer" 
+    Version="2.1.0.0" 
+    Manufacturer="bbv Software Services AG" 
+    UpgradeCode="db490597-a41c-41f1-97dd-79ba71ce9b25">
+
+    <BootstrapperApplicationRef
+      Id="ManagedBootstrapperApplicationHost">
+      <Payload SourceFile="$(var.CustomBootstrapper.TargetDir)CustomBootstrapper.dll" />
+      <Payload SourceFile ="$(var.CustomBootstrapper.TargetDir)BootstrapperCore.config" />
+    </BootstrapperApplicationRef>
+
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value ="" />
+    <WixVariable Id="WixMbaPrereqPackageId" Value ="" />
+    
+    <Chain>
+      <MsiPackage 
+        Id="Prerequisite"
+        SourceFile="$(var.PrerequisiteApplicationInstaller.TargetDir)PrerequisiteApplicationInstaller.msi"
+        Visible="yes"/>
+
+      <MsiPackage 
+        Id="Application"
+        SourceFile="$(var.ApplicationInstaller.TargetDir)ApplicationInstaller.msi"
+        Visible="yes"/>
+
+      <RollbackBoundary Vital="yes" />
+
+      <MsiPackage 
+        Id="Extra"
+        SourceFile="$(var.ExtraApplicationInstaller.TargetDir)ExtraApplicationInstaller.msi"
+        Visible="yes"/>
+    </Chain>
+  </Bundle>
+</Wix>

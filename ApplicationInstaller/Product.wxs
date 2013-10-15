@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="7ce44f75-2333-4a13-ac93-e6805ed4dcbd"
+             Name="Windows Developer Application"
+             Language="1033"
+             Version="2.1.0.0"
+             Manufacturer="bbv Software Services AG"
+             UpgradeCode="896d13df-e8e8-47de-b186-40f70d2e9af4">
+      
+        <Package InstallerVersion="200"
+                 Compressed="yes"
+                 InstallScope="perMachine" />
+
+        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+      
+        <MediaTemplate EmbedCab="yes"/>
+
+        <!-- UI: Define wizard -->
+        <UIRef Id="WixUI_InstallDir" />
+        <UIRef Id="WixUI_ErrorProgressText" />
+        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER"/>
+
+        <!-- Features to install -->
+        <Feature Id="ProductFeature"
+                 Title="Application"
+                 Level="1">
+          <ComponentGroupRef Id="ProductComponents" />
+          <ComponentGroupRef Id="Files"/>
+        </Feature>
+    </Product>
+
+    <Fragment>
+        <!-- Step 1: Define directory structure -->
+        <Directory Id="TARGETDIR"
+                   Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="INSTALLFOLDER"
+                           Name="Windows Developer">
+                  <Directory Id="Files" Name="Files"/>
+                </Directory>
+              </Directory>
+            <Directory Id="DesktopFolder"
+                       Name="Desktop" />
+        </Directory>
+    </Fragment>
+
+    <Fragment>
+      <!-- Components of the application -->
+      <ComponentGroup Id="ProductComponents"
+                      Directory="INSTALLFOLDER">
+          <Component Id="Main" Guid ="C5163FAD-A8F1-4A85-8A6B-96BAF17556A4">
+              <File Id ="Main.txt"
+                   Source="$(var.Application.TargetDir)Main.txt"
+                   KeyPath="yes">
+                 <Shortcut Id="shortcutDesktop"
+                           Directory="DesktopFolder"
+                            Name="Windows Developer Application"
+                           WorkingDirectory="INSTALLFOLDER"
+                           Advertise="yes" />
+             </File>
+          </Component>
+      </ComponentGroup>
+      
+      <!-- Components of further files -->
+      <ComponentGroup Id="Files"
+                      Directory="Files">
+        <Component Guid="9D1F6CFB-3EA6-4550-86A6-37042FE9CFA5">
+          <File Source="$(var.Application.TargetDir)Files\FirstFile.txt"
+                KeyPath="yes"/>
+        </Component>
+        <Component Guid="93A81635-9E5A-48A0-9A87-241D230963E3">
+          <File Source="$(var.Application.TargetDir)Files\SecondFile.txt"
+                KeyPath="yes"/>
+        </Component>
+      </ComponentGroup>
+    </Fragment>
+  
+</Wix>

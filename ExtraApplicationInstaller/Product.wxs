@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="CA4CFF43-5BD1-4CE6-9D26-E196D9DE5A16"
+             Name="Windows Developer Extra Application"
+             Language="1033"
+             Version="1.0.0.0"
+             Manufacturer="bbv Software Services AG"
+             UpgradeCode="E7E90FBA-408F-4319-B8D2-A03C109D74D2">
+
+        <Package InstallerVersion="200"
+                 Compressed="yes"
+                 InstallScope="perMachine" />
+
+        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+        <MediaTemplate EmbedCab="yes"/>
+
+        <!-- UI: Define wizard -->
+        <UIRef Id="WixUI_InstallDir" />
+        <UIRef Id="WixUI_ErrorProgressText" />
+        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER"/>
+
+        <!-- Features to install -->
+        <Feature Id="ExtraFeature"
+                 Title="Extra"
+                 Level="1">
+            <ComponentGroupRef Id="ExtraComponents" />
+        </Feature>
+    </Product>
+
+    <Fragment>
+        <!-- Step 1: Define directory structure -->
+        <Directory Id="TARGETDIR"
+                   Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="INSTALLFOLDER"
+                           Name="Windows Developer Extra Application">
+                </Directory>
+            </Directory>
+        </Directory>
+    </Fragment>
+
+    <Fragment>
+        <!-- Components of the extra-application -->
+        <ComponentGroup Id="ExtraComponents"
+                        Directory="INSTALLFOLDER">
+            <Component Id="Extra" Guid ="F9D12DE6-E13A-4D3B-9677-A9A000F5463A">
+                <File Id ="Extra.txt"
+                     Source="$(var.ExtraApplication.TargetDir)Extra.txt"
+                     KeyPath="yes">
+                </File>
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+
+</Wix>
